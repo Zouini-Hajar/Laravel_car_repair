@@ -20,6 +20,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'role',
+        'picture'
     ];
 
     public function client() {

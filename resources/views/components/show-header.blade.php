@@ -1,4 +1,4 @@
-@props(['title', 'route'])
+@props(['title', 'route', 'showButton'])
 
 <div class="flex justify-between items-center my-5">
     <div class="flex items-center gap-4">
@@ -10,9 +10,11 @@
             {{ $title }}
         </h3>
     </div>
-    <button type="button"
-        class="px-6 py-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
-        <i class="fa-solid fa-pen"></i> Edit
-    </button>
+    @if (!isset($showButton) || $showButton == true)
+        <button type="button" onclick="window.location='{{ $route }}'"
+            class="px-6 py-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
+            <i class="fa-solid fa-pen"></i> Edit
+        </button>
+    @endif
 </div>
 <hr class="mb-5">

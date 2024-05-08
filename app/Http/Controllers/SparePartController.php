@@ -8,14 +8,17 @@ use Illuminate\Http\Request;
 class SparePartController extends Controller
 {
     // Show all spare parts
-    public function index() {
+    public function index()
+    {
         return view('spareparts.index', [
-            'spareparts' => Sparepart::all(['id', 'name', 'reference', 'stock', 'price', 'picture'])
+            'spareparts' => Sparepart::select(['id', 'name', 'reference', 'stock', 'price', 'picture'])
+                ->simplePaginate(5)
         ]);
     }
 
     // Show single spare part
-    public function show(Sparepart $sparepart) {
+    public function show(Sparepart $sparepart)
+    {
         return view('spareparts.show', [
             'sparePart' => $sparepart
         ]);

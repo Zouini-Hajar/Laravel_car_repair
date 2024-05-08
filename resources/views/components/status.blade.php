@@ -2,6 +2,8 @@
 
 @switch($status)
     @case('Fixed')
+    @case('Completed')
+    @case('Paid')
         <span
             class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
             {{ $status }}
@@ -18,6 +20,13 @@
     @case('Waiting for Parts')
         <span
             class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+            {{ $status }}
+        </span>
+    @break
+
+    @case('Not Paid')
+        <span
+            class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
             {{ $status }}
         </span>
     @break

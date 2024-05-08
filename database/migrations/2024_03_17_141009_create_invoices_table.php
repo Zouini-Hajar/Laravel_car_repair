@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->float('additional_charges');
             $table->float('total');
             $table->string('status');
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->timestamps();
         });
     }

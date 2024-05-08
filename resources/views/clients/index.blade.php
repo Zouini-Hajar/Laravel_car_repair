@@ -2,7 +2,9 @@
 
 @php
     $headers = ['First Name', 'Last Name', 'CIN', 'Phone Number'];
-    $columns = array_keys($clients->first()->toArray());
+    if (!$clients->isEmpty()) {
+        $columns = array_keys($clients->first()->toArray());
+    }
 @endphp
 
 @section('content')
