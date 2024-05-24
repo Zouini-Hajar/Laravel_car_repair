@@ -12,23 +12,10 @@ class SupplierController extends Controller
     public function index()
     {
         return view('suppliers.index', [
-            'suppliers' => Supplier::select(['id', 'name', 'email', 'phone_number', 'address'])
+            'suppliers' => Supplier::latest()
+                ->select(['id', 'name', 'email', 'phone_number', 'address'])
                 ->simplePaginate(5)
         ]);
-    }
-
-    // Show single supplier
-    public function show(Supplier $supplier)
-    {
-        return view('suppliers.show', [
-            'supplier' => $supplier
-        ]);
-    }
-
-    // Show form to create new supplier
-    public function create()
-    {
-        return view('suppliers.create');
     }
 
     // Store supplier
@@ -47,14 +34,6 @@ class SupplierController extends Controller
         return redirect('/suppliers')->with('success', 'Supplier created successfully!');
     }
 
-    // Show form to edit supplier
-    public function edit(Supplier $supplier)
-    {
-        return view('suppliers.edit', [
-            'supplier' => $supplier
-        ]);
-    }
-
     // Update supplier
     public function update(Request $request, Supplier $supplier)
     {
@@ -71,8 +50,9 @@ class SupplierController extends Controller
     }
 
     // Delete supplier
-    public function destroy()
+    public function destroy(Supplier $supplier)
     {
-
+        $supplier->delete();
+        return redirect('/suppliers')->with('success', 'Supplier deleted successfully!');
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Repair;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Console\VendorPublishCommand;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -48,7 +47,7 @@ class VehicleController extends Controller
             'model' => 'required',
             'year' => 'required|numeric',
             'fuel_type' => 'required',
-            'vin' => ['required', 'regex:/^[A-HJ-NPR-Z0-9]{17}$/', Rule::unique('vehicles', 'vin')],
+            'vin' => ['regex:/^[A-HJ-NPR-Z0-9]{17}$/', Rule::unique('vehicles', 'vin')],
             'license_plate' => ['required', Rule::unique('vehicles', 'license_plate')],
         ]);
 
@@ -88,7 +87,9 @@ class VehicleController extends Controller
     }
 
     // Delete vehicle
-    public function destroy()
+    public function destroy(Vehicle $vehicle)
     {
+        $vehicle->delete();
+        return redirect('/vehicles')->with('success', 'Vehicle deleted successfully!');
     }
 }

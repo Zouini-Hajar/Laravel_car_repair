@@ -6,7 +6,7 @@
         <form method="POST" action="/vehicles" class="max-w-md p-5 flex-1">
             @csrf
             <div class="mb-5">
-                <label for="client_" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="client_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Client
                 </label>
                 <select id="client" name="client_id"

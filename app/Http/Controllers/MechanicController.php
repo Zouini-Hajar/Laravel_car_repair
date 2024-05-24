@@ -120,7 +120,15 @@ class MechanicController extends Controller
     }
 
     // Delete mechanic
-    public function destroy()
+    public function destroy(Mechanic $mechanic)
     {
+        $user = User::find($mechanic->user_id);
+        if ($user) {
+            $user->delete();
+        }
+
+        $mechanic->delete();
+
+        return redirect('/mechanics')->with('success', 'Mechanic deleted successfully!');
     }
 }

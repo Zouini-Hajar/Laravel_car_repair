@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -25,10 +26,15 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $vehicles = Vehicle::where('client_id', $client->id)->get(['id', 'make', 'model', 'license_plate', 'status']);
+        $invoices = Invoice::where('client_id', $client->id)
+            ->join('repairs', 'repairs.invoice_id', '=', 'invoices.id')
+            ->select('description', 'total', 'invoices.status')
+            ->get();
         return view('clients.show', [
             'client' => $client,
             'user' => User::find($client->user_id),
-            'vehicles' => $vehicles
+            'vehicles' => $vehicles,
+            'invoices' => $invoices
         ]);
     }
 
@@ -110,7 +116,15 @@ class ClientController extends Controller
     }
 
     // Delete client
-    public function destroy()
+    public function destroy(Client $client)
     {
+        $user = User::find($client->user_id);
+        if ($user) {
+            $user->delete();
+        }
+
+        $client->delete();
+
+        return redirect('/clients')->with('success', 'Client deleted successfully!');
     }
 }

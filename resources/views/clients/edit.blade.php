@@ -3,7 +3,7 @@
 @section('content')
     <x-show-header title="Edit Client" :showButton="false" />
     <div class="flex">
-        <form method="POST" action="/clients/{{$client->id}}" enctype="multipart/form-data" class="max-w-md p-5 flex-1">
+        <form method="POST" action="/clients/{{ $client->id }}" enctype="multipart/form-data" class="max-w-md p-5 flex-1">
             @csrf
             @method('PUT')
             <div class="relative z-0 w-full mb-5 group">

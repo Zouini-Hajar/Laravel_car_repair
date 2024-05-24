@@ -15,27 +15,19 @@
         </x-card>
         <x-card title="Invoices">
             <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
-                <li class="flex items-center justify-between">
-                    <span>
-                        <i class="fa-solid fa-circle-check text-green-500 mr-1"></i>
-                        Brake System Repair
-                    </span>
-                    <span class="font-bold text-gray-900">500 DH</span>
-                </li>
-                <li class="flex items-center justify-between">
-                    <span>
-                        <i class="fa-solid fa-circle-check text-green-500 mr-1"></i>
-                        Wheel Alignment
-                    </span>
-                    <span class="font-bold text-gray-900">300 DH</span>
-                </li>
-                <li class="flex items-center justify-between">
-                    <span>
-                        <i class="fa-solid fa-circle-check text-red-500 mr-1"></i>
-                        Fuel System Tune Up
-                    </span>
-                    <span class="font-bold text-gray-900">700 DH</span>
-                </li>
+                @foreach ($invoices as $item)
+                    <li class="flex items-center justify-between">
+                        <span>
+                            @if ($item['status'] == 'paid')
+                                <i class="fa-solid fa-circle-check text-green-500 mr-1"></i>
+                            @else
+                                <i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i>
+                            @endif
+                            {{ $item['description'] }}
+                        </span>
+                        <span class="font-bold text-gray-900">{{ $item['total'] }} DH</span>
+                    </li>
+                @endforeach
             </ul>
         </x-card>
         <x-card title="Vehicles" class="col-span-2">

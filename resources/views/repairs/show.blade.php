@@ -64,18 +64,11 @@
                         </thead>
                         <tbody>
                             @foreach ($spareparts as $item)
-                                <tr onclick="window.location='{{ '/spareparts' . '/' . $item->id }}'"
-                                    class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <tr
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="text-center">
-                                        @if ($item['picture'])
-                                            <img class="w-10 h-10 rounded-full object-cover m-auto"
-                                                src="{{ $item['picture'] }}" alt="Profile">
-                                        @else
-                                            <div
-                                                class="m-auto flex justify-center items-center relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                                <i class="fa-solid fa-gear"></i>
-                                            </div>
-                                        @endif
+                                        <img class="w-10 h-10 rounded-full object-cover m-auto"
+                                            src="{{ asset('storage/' . $item->picture) }}" alt="Sparepart">
                                     </td>
                                     @foreach ($columns as $col)
                                         @if ($col != 'id' && $col != 'picture')
@@ -91,7 +84,7 @@
                                                         </button>
                                                         <input type="text" id="counter-input" data-input-counter
                                                             class="flex-shrink-0 text-gray-900 dark:text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center"
-                                                            placeholder="" value="12" required />
+                                                            placeholder="" value={{ $item[$col] }} required />
                                                         <button type="button" id="increment-button"
                                                             data-input-counter-increment="counter-input"
                                                             class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
