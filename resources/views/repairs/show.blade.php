@@ -9,7 +9,21 @@
 @endphp
 
 @section('content')
-    <x-show-header :title="$repair->description" :route="$repair->id . '/edit'" />
+    <div class="flex justify-between items-center my-5">
+        <div class="flex items-center gap-4">
+            <button type="button" onclick="history.back()"
+                class="text-purple-700 hover:bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+                {{ $repair->description }}
+            </h3>
+        </div>
+        <button type="button" data-modal-target="edit-modal" data-modal-show="edit-modal"
+            class="px-6 py-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
+            <i class="fa-solid fa-pen"></i> Edit
+        </button>
+    </div>
     <div class="grid grid-cols-2 gap-8">
         <x-card title="Mechanic">
             <x-info-card :user="$user" :person="$mechanic" />
@@ -47,7 +61,18 @@
                 </div>
             </div>
         </x-card>
-        <x-card title="Spare Parts" :showButton="true" class="col-span-2">
+        <div
+            class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 col-span-2">
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">
+                    Spare Parts
+                </h3>
+                <button type="button"
+                    class="w-10 h-10 flex justify-center items-center text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-full text-sm p-2.5 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+            <hr class="my-4">
             <div class="relative overflow-x-auto">
                 @if (!$spareparts->isEmpty())
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -116,6 +141,7 @@
                     <div class="text-center">No Spare Parts were used</div>
                 @endif
             </div>
-        </x-card>
+        </div>
     </div>
+    <x-edit-repair-modal :mechanics="$mechanics" :repair="$repair" />
 @endsection

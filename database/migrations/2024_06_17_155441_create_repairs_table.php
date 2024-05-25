@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('status');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->text('mechanic_notes');
+            $table->text('mechanic_notes')->nullable();
             $table->unsignedBigInteger('repair_details_id');
             $table->foreign('repair_details_id')->references('id')->on('repairs_details')->onDelete('cascade');
             $table->unsignedBigInteger('mechanic_id');

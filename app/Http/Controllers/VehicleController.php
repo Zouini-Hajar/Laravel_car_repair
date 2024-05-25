@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Mechanic;
 use App\Models\Repair;
+use App\Models\RepairDetails;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -29,7 +31,9 @@ class VehicleController extends Controller
         ->get();
         return view('vehicles.show', [
             'vehicle' => $vehicle,
-            'repairs' => $repairs
+            'repairs' => $repairs,
+            'repairs_details' => RepairDetails::all(),
+            'mechanics' => Mechanic::all()
         ]);
     }
 
