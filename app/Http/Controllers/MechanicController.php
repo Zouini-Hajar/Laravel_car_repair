@@ -27,6 +27,7 @@ class MechanicController extends Controller
     {
         $repairs = Mechanic::join('repairs', 'mechanics.id', '=', 'mechanic_id')
             ->join('vehicles', 'vehicles.id', '=', 'vehicle_id')
+            ->join('repairs_details', 'repairs.repair_details_id' , '=', 'repairs_details.id')
             ->where('mechanic_id', $mechanic->id)
             ->select('repairs.id', 'description', 'make', 'mechanic_notes', 'repairs.status')
             ->get();

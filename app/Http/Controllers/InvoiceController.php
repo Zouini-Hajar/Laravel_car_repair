@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Repair;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -16,9 +14,21 @@ class InvoiceController extends Controller
         $invoices = Repair::join('invoices', 'invoices.id', '=', 'invoice_id')
             ->join('clients', 'clients.id', '=', 'invoices.client_id')
             ->select('invoices.id as id', 'repairs.id as repair_id', 'first_name', 'last_name', 'total', 'invoices.status')
-            ->get();
+            ->simplePaginate(5);
         return view('invoices.index', [
             'invoices' => $invoices
         ]);
+    }
+
+    // Update invoice
+    public function update(Request $request, Invoice $invoice)
+    {
+        $status = $request->validate([
+            'status' => 'required'
+        ]);
+
+        $invoice->update($status);
+
+        return redirect('/invoices')->with('success', 'Invoice updated successfully!');
     }
 }

@@ -18,7 +18,7 @@
                 @foreach ($invoices as $item)
                     <li class="flex items-center justify-between">
                         <span>
-                            @if ($item['status'] == 'paid')
+                            @if ($item['status'] == 'Paid')
                                 <i class="fa-solid fa-circle-check text-green-500 mr-1"></i>
                             @else
                                 <i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i>

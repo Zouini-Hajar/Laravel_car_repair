@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('repairs', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
             $table->string('status');
-            $table->float('price');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->text('mechanic_notes');
+            $table->unsignedBigInteger('repair_details_id');
+            $table->foreign('repair_details_id')->references('id')->on('repairs_details')->onDelete('cascade');
             $table->unsignedBigInteger('mechanic_id');
             $table->foreign('mechanic_id')->references('id')->on('mechanics')->onDelete('cascade');
             $table->unsignedBigInteger('vehicle_id');

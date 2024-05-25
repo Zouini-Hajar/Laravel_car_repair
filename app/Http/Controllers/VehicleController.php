@@ -23,7 +23,10 @@ class VehicleController extends Controller
     // Show single vehicle
     public function show(Vehicle $vehicle)
     {
-        $repairs = Repair::where('vehicle_id', $vehicle->id)->get(['id', 'description', 'price', 'status']);
+        $repairs = Repair::join('repairs_details', 'repairs.repair_details_id' , '=', 'repairs_details.id')
+        ->where('repairs.vehicle_id', $vehicle->id)
+        ->select('repairs.id', 'description', 'price', 'status')
+        ->get();
         return view('vehicles.show', [
             'vehicle' => $vehicle,
             'repairs' => $repairs

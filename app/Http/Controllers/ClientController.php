@@ -28,6 +28,7 @@ class ClientController extends Controller
         $vehicles = Vehicle::where('client_id', $client->id)->get(['id', 'make', 'model', 'license_plate', 'status']);
         $invoices = Invoice::where('client_id', $client->id)
             ->join('repairs', 'repairs.invoice_id', '=', 'invoices.id')
+            ->join('repairs_details', 'repairs.repair_details_id' , '=', 'repairs_details.id')
             ->select('description', 'total', 'invoices.status')
             ->get();
         return view('clients.show', [
