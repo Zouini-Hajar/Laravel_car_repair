@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\Mechanic;
 use App\Models\Repair;
 use App\Models\RepairDetails;
+use App\Models\Sparepart;
 use App\Models\User;
 use App\Models\Vehicle;
 use Carbon\Carbon;
@@ -35,6 +36,7 @@ class RepairController extends Controller
             'mechanic' => $mechanic,
             'user' => $user,
             'spareparts' => $spareparts,
+            'spareparts_list' => Sparepart::all(),
             'mechanics' => Mechanic::all(),
         ]);
     }
