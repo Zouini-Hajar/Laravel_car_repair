@@ -60,7 +60,7 @@ class ClientController extends Controller
 
         // Create a new user
         $user = User::create([
-            'username' => $data['first_name'] . '_' . $data['last_name'],
+            'username' => $data['first_name'] . ' ' . $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['first_name'] . '_' . $data['last_name'] . '@@'),
             'role' => 'client',
@@ -71,6 +71,7 @@ class ClientController extends Controller
 
         unset($data['email']);
 
+        // Create a new client
         $client = new Client($data);
         $client->user()->associate($user);
         $client->save();

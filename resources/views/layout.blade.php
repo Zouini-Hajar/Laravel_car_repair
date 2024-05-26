@@ -31,7 +31,7 @@
                             </path>
                         </svg>
                     </button>
-                    <a href="https://flowbite.com" class="flex ms-2 md:me-24">
+                    <a href="/" class="flex ms-2 md:me-24">
                         <h3 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
                             <span class="text-transparent bg-clip-text bg-gradient-to-r to-purple-600 from-sky-400">
                                 <i class="fa-solid fa-car-on"></i> Car Garage
@@ -40,36 +40,45 @@
                     </a>
                 </div>
                 <div class="flex items-center">
-                    <div class="flex items-center ms-3">
-                        <div>
-                            <button type="button"
-                                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                    alt="user photo">
-                            </button>
-                        </div>
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                            id="dropdown-user">
-                            <div class="px-4 py-3" role="none">
-                                <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                    Neil Sims
-                                </p>
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    neil.sims@flowbite.com
-                                </p>
+                    @auth
+                        <div class="flex items-center ms-3">
+                            <div>
+                                <button type="button"
+                                    class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                    aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                    <span class="sr-only">Open user menu</span>
+                                    @if (auth()->user()->picture)
+                                        <img class="w-8 h-8 rounded-full"
+                                            src="{{ asset('storage/' . auth()->user()->picture) }}" alt="Profile">
+                                    @else
+                                        <div
+                                            class="relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                            <span
+                                                class="font-medium text-gray-600 dark:text-gray-300">{{ auth()->user()->username[0] }}</span>
+                                        </div>
+                                    @endif
+                                </button>
                             </div>
-                            <ul class="py-1" role="none">
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Sign out</a>
-                                </li>
-                            </ul>
+                            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                                id="dropdown-user">
+                                <div class="px-4 py-3">
+                                    <p class="text-sm text-gray-900 dark:text-white">
+                                        {{ auth()->user()->username }}
+                                    </p>
+                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300">
+                                        {{ auth()->user()->email }}
+                                    </p>
+                                </div>
+                                <form method="POST" action="/logout">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Sign out
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -83,42 +92,48 @@
                 <li>
                     <a href="/"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa-solid fa-chart-pie text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-chart-pie text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                         <span class="ms-3">Dashboard</span>
                     </a>
                 </li>
                 <li>
                     <a href="/clients"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa-solid fa-user-group text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-user-group text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Clients</span>
                     </a>
                 </li>
                 <li>
                     <a href="/vehicles"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa-solid fa-car text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-car text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Vehicles</span>
                     </a>
                 </li>
                 <li>
                     <a href="/mechanics"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa-solid fa-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Mechanics</span>
                     </a>
                 </li>
                 <li>
                     <a href="/repair-details"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa-solid fa-screwdriver-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-screwdriver-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Repairs</span>
                     </a>
                 </li>
                 <li>
                     <a href="/invoices"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa-solid fa-receipt text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-receipt text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Invoices</span>
                     </a>
                 </li>
@@ -126,9 +141,11 @@
                     <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                        <i class="fa-solid fa-gear text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-gear text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                         <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Warehouse</span>
-                        <i class="fa-solid fa-angle-down text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <i
+                            class="fa-solid fa-angle-down text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                     </button>
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
                         <li>
