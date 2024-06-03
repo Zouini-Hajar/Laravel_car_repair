@@ -11,10 +11,20 @@ class InvoiceController extends Controller
     // Show all invoices
     public function index()
     {
-        $invoices = Repair::join('invoices', 'invoices.id', '=', 'invoice_id')
-            ->join('clients', 'clients.id', '=', 'invoices.client_id')
-            ->select('invoices.id as id', 'repairs.id as repair_id', 'first_name', 'last_name', 'total', 'invoices.status')
-            ->simplePaginate(5);
+        if (auth()->user()->role == 'client') {
+            $invoices = Repair::join('invoices', 'invoices.id', '=', 'invoice_id')
+                ->join('clients', 'clients.id', '=', 'invoices.client_id')
+                ->join('users', 'user_id', '=', 'users.id')
+                ->where('user_id', auth()->user()->id)
+                ->select('invoices.id as id', 'repairs.id as repair_id', 'first_name', 'last_name', 'total', 'invoices.status')
+                ->simplePaginate(5);
+        } else {
+            $invoices = Repair::join('invoices', 'invoices.id', '=', 'invoice_id')
+                ->join('clients', 'clients.id', '=', 'invoices.client_id')
+                ->select('invoices.id as id', 'repairs.id as repair_id', 'first_name', 'last_name', 'total', 'invoices.status')
+                ->simplePaginate(5);
+        }
+
         return view('invoices.index', [
             'invoices' => $invoices
         ]);

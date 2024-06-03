@@ -14,6 +14,21 @@ use Illuminate\Http\Request;
 
 class RepairController extends Controller
 {
+    // show all repairs details
+    public function index()
+    {
+        $repairs = Repair::latest('repairs.updated_at')
+            ->join('repairs_details', 'repair_details_id', '=', 'repairs_details.id')
+            ->where('repairs.mechanic_id', auth()->user()->mechanic->id)
+            ->select('repairs.id', 'description', 'status', 'start_date', 'end_date')
+            ->simplePaginate(5);
+
+        return view('repairs.index', [
+            'repairs' => $repairs,
+            'mechanics' => Mechanic::all(),
+        ]);
+    }
+
     // show single vehicle repair
     public function show(Repair $repair)
     {
@@ -23,7 +38,9 @@ class RepairController extends Controller
         $repair_details = Repair::join('repairs_details', 'repair_details_id', '=', 'repairs_details.id')
             ->where('repairs.id', $repair->id)
             ->select('repairs.id', 'description', 'price', 'status')
-            ->get();
+            ->first();
+
+        $repair_details['mechanic_notes'] = $repair->mechanic_notes;
 
         $spareparts = Repair::join('repair_spareparts', 'repairs.id', '=', 'repair_id')
             ->join('spareparts', 'spareparts.id', '=', 'sparepart_id')
@@ -32,7 +49,7 @@ class RepairController extends Controller
             ->get();
 
         return view('repairs.show', [
-            'repair' => $repair_details[0],
+            'repair' => $repair_details,
             'mechanic' => $mechanic,
             'user' => $user,
             'spareparts' => $spareparts,
@@ -73,14 +90,20 @@ class RepairController extends Controller
     // Update new repair
     public function update(Request $request, Repair $repair)
     {
-        $data = $request->validate([
-            'mechanic_id' => 'required',
-            'status' => 'required',
-            'start_date' => 'required|date',
-            //'end_date' => 'date',
-        ]);
+        if ($request->has('mechanic_notes')) {
+            $data = $request->validate([
+                'mechanic_notes' => 'required|string',
+            ]);
+        } else {
+            $data = $request->validate([
+                'mechanic_id' => 'required',
+                'status' => 'required',
+                'start_date' => 'required|date',
+                //'end_date' => 'date',
+            ]);
 
-        $data['start_date'] = Carbon::createFromFormat('m/d/Y', $data['start_date'])->format('Y-m-d');
+            $data['start_date'] = Carbon::createFromFormat('m/d/Y', $data['start_date'])->format('Y-m-d');
+        }
 
         $repair->update($data);
 

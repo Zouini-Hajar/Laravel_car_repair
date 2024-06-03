@@ -27,7 +27,7 @@ class MechanicController extends Controller
     {
         $repairs = Mechanic::join('repairs', 'mechanics.id', '=', 'mechanic_id')
             ->join('vehicles', 'vehicles.id', '=', 'vehicle_id')
-            ->join('repairs_details', 'repairs.repair_details_id' , '=', 'repairs_details.id')
+            ->join('repairs_details', 'repairs.repair_details_id', '=', 'repairs_details.id')
             ->where('mechanic_id', $mechanic->id)
             ->select('repairs.id', 'description', 'make', 'mechanic_notes', 'repairs.status')
             ->get();
@@ -61,7 +61,7 @@ class MechanicController extends Controller
 
         // Create a new user
         $user = User::create([
-            'username' => $data['first_name'] . '_' . $data['last_name'],
+            'username' => $data['first_name'] . ' ' . $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['first_name'] . '_' . $data['last_name'] . '@@'),
             'role' => 'mechanic',
@@ -117,7 +117,9 @@ class MechanicController extends Controller
 
         $mechanic->update($data);
 
-        return redirect('/mechanics' . '/' . $mechanic->id)->with('success', 'Mechanic updated successfully!');
+        $path = '/mechanics' . '/' . $mechanic->id . (auth()->user()->role == 'mechanic' ? '/edit' : '');
+
+        return redirect($path)->with('success', 'Mechanic updated successfully!');
     }
 
     // Delete mechanic

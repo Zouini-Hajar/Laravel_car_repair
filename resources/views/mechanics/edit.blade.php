@@ -1,9 +1,11 @@
 @extends('layout')
 
 @section('content')
-    <x-show-header title="Edit Mechanic" :showButton="false" />
+    <x-show-header
+        :title={{ auth()->user()->role == 'mechanic' ? $mechanic->first_name . ' ' . $mechanic->last_name : 'Edit Mechanic' }}
+        :showButton="false" />
     <div class="flex">
-        <form method="POST" action="/mechanics/{{$mechanic->id}}" enctype="multipart/form-data" class="max-w-md p-5 flex-1">
+        <form method="POST" action="/mechanics/{{ $mechanic->id }}" enctype="multipart/form-data" class="max-w-md p-5 flex-1">
             @csrf
             @method('PUT')
             <div class="relative z-0 w-full mb-5 group">
@@ -78,7 +80,8 @@
                     <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Phone Number
                     </label>
-                    <input type="text" id="phone_number" name="phone_number" regex="/^(?:\+212|0)([5-7]\d{8})$/" value="{{ $mechanic->phone_number }}"
+                    <input type="text" id="phone_number" name="phone_number" regex="/^(?:\+212|0)([5-7]\d{8})$/"
+                        value="{{ $mechanic->phone_number }}"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500" />
                     @error('phone_number')
                         <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
@@ -90,7 +93,8 @@
                     <label for="cin" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         CIN
                     </label>
-                    <input type="text" id="cin" name="cin" regex="/^[A-Za-z]\d{6}$/" value="{{ $mechanic->cin }}"
+                    <input type="text" id="cin" name="cin" regex="/^[A-Za-z]\d{6}$/"
+                        value="{{ $mechanic->cin }}"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500" />
                     @error('cin')
                         <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
@@ -99,7 +103,7 @@
                     @enderror
                 </div>
             </div>
-            <div class="mb-5">
+            <div class={{ auth()->user()->role == 'mechanic' ? 'hidden' : 'mb-5' }}>
                 <label for="recruitment_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Recruitment Date
                 </label>
@@ -111,7 +115,8 @@
                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                         </svg>
                     </div>
-                    <input datepicker type="text" id="recruitment_date" name="recruitment_date" value="{{ $mechanic->recruitment_date }}"
+                    <input datepicker type="text" id="recruitment_date" name="recruitment_date"
+                        value="{{ $mechanic->recruitment_date }}"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
                         placeholder="Select date">
                 </div>
@@ -121,7 +126,7 @@
                     </p>
                 @enderror
             </div>
-            <div class="mb-5">
+            <div class={{ auth()->user()->role == 'mechanic' ? 'hidden' : 'mb-5' }}>
                 <label for="salary" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Salary
                 </label>

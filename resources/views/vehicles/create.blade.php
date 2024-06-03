@@ -5,24 +5,28 @@
     <div class="flex">
         <form method="POST" action="/vehicles" class="max-w-md p-5 flex-1">
             @csrf
-            <div class="mb-5">
-                <label for="client_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Client
-                </label>
-                <select id="client" name="client_id"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500">
-                    <option value=""></option>
-                    @foreach ($clients as $client)
-                        <option value="{{ $client->id }}" @selected($client->id == old('client_id'))>
-                            {{ $client->first_name . ' ' . $client->last_name }}</option>
-                    @endforeach
-                </select>
-                @error('client_id')
-                    <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
-                        {{ $message }}
-                    </p>
-                @enderror
-            </div>
+            @if (auth()->user()->role != 'client')
+                <div class="mb-5">
+                    <label for="client_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Client
+                    </label>
+                    <select id="client" name="client_id"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500">
+                        <option value=""></option>
+                        @foreach ($clients as $client)
+                            <option value="{{ $client->id }}" @selected($client->id == old('client_id'))>
+                                {{ $client->first_name . ' ' . $client->last_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('client_id')
+                        <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+            @else
+                <input class="hidden" type="text" name="client_id" id="client" value={{ auth()->user()->client()->id }}>
+            @endif
             <div class="flex gap-5 mb-5">
                 <div class="flex-1">
                     <label for="make" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

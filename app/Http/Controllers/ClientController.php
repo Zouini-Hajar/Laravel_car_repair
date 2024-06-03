@@ -76,7 +76,6 @@ class ClientController extends Controller
         $client->user()->associate($user);
         $client->save();
 
-
         return redirect('/clients')->with('success', 'Client created successfully!');
     }
 
@@ -114,7 +113,9 @@ class ClientController extends Controller
 
         $client->update($data);
 
-        return redirect('/clients' . '/' . $client->id)->with('success', 'Client updated successfully!');
+        $path = '/clients' . '/' . $client->id . (auth()->user()->role == 'client' ? '/edit' : '');
+
+        return redirect($path)->with('success', 'Client updated successfully!');
     }
 
     // Delete client

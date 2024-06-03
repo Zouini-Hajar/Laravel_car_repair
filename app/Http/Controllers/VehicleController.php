@@ -15,20 +15,31 @@ class VehicleController extends Controller
     // Show all vehicles
     public function index()
     {
-        return view('vehicles.index', [
-            'vehicles' => Vehicle::latest()
+        if (auth()->user()->role == 'client') {
+            $vehicles = Vehicle::join('clients', 'client_id', '=', 'clients.id')
+                ->join('users', 'user_id', '=', 'users.id')
+                ->select(['vehicles.id', 'make', 'model', 'year', 'license_plate', 'vin', 'fuel_type'])
+                ->where('user_id', auth()->user()->id)
+                ->orderBy('vehicles.updated_at')
+                ->simplePaginate(5);
+        } else {
+            $vehicles = Vehicle::latest()
                 ->select(['id', 'make', 'model', 'year', 'license_plate', 'vin', 'fuel_type'])
-                ->simplePaginate(5)
+                ->simplePaginate(5);
+        }
+
+        return view('vehicles.index', [
+            'vehicles' => $vehicles
         ]);
     }
 
     // Show single vehicle
     public function show(Vehicle $vehicle)
     {
-        $repairs = Repair::join('repairs_details', 'repairs.repair_details_id' , '=', 'repairs_details.id')
-        ->where('repairs.vehicle_id', $vehicle->id)
-        ->select('repairs.id', 'description', 'price', 'status')
-        ->get();
+        $repairs = Repair::join('repairs_details', 'repairs.repair_details_id', '=', 'repairs_details.id')
+            ->where('repairs.vehicle_id', $vehicle->id)
+            ->select('repairs.id', 'description', 'price', 'status')
+            ->get();
         return view('vehicles.show', [
             'vehicle' => $vehicle,
             'repairs' => $repairs,

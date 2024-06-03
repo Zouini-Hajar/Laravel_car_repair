@@ -1,7 +1,9 @@
 @extends('layout')
 
 @section('content')
-    <x-show-header title="Edit Client" :showButton="false" />
+    <x-show-header
+        :title={{ auth()->user()->role == 'client' ? $client->first_name . ' ' . $client->last_name : 'Edit Client' }}
+        :showButton="false" />
     <div class="flex">
         <form method="POST" action="/clients/{{ $client->id }}" enctype="multipart/form-data" class="max-w-md p-5 flex-1">
             @csrf

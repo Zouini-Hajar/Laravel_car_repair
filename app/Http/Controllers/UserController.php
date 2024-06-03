@@ -62,7 +62,7 @@ class UserController extends Controller
             'password' => 'required'
         ]);
 
-        if (auth()->attempt($data)) {
+        if (auth()->attempt($data, $request->remember)) {
             $request->session()->regenerate();
 
             return redirect('/')->with('success', 'Welcome ' . auth()->user()->username . '!');

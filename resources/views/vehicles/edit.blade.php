@@ -6,7 +6,7 @@
         <form method="POST" action="/vehicles/{{ $vehicle->id }}" class="max-w-md p-5 flex-1">
             @csrf
             @method('PUT')
-            <div class="mb-5">
+            <div class={{auth()->user()->role == 'client' ? ' hidden' : 'mb-5'}}>
                 <label for="client_" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Client
                 </label>

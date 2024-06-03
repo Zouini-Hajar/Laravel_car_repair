@@ -10,7 +10,7 @@ class RepairDetailsController extends Controller
     // show all repairs details
     public function index()
     {
-        return view('repairs.index', [
+        return view('repair-details.index', [
             'repairs' => RepairDetails::latest()
                 ->select(['id', 'description', 'price'])
                 ->simplePaginate(5)

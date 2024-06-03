@@ -89,76 +89,138 @@
         aria-label="Sidebar">
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
-                <li>
-                    <a href="/"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i
-                            class="fa-solid fa-chart-pie text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="ms-3">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/clients"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i
-                            class="fa-solid fa-user-group text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Clients</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/vehicles"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i
-                            class="fa-solid fa-car text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Vehicles</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/mechanics"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i
-                            class="fa-solid fa-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Mechanics</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/repair-details"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i
-                            class="fa-solid fa-screwdriver-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Repairs</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/invoices"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i
-                            class="fa-solid fa-receipt text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Invoices</span>
-                    </a>
-                </li>
-                <li>
-                    <button type="button"
-                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                        aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                        <i
-                            class="fa-solid fa-gear text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Warehouse</span>
-                        <i
-                            class="fa-solid fa-angle-down text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                    </button>
-                    <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                        <li>
-                            <a href="/spareparts"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Spare
-                                Parts</a>
-                        </li>
-                        <li>
-                            <a href="/suppliers"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Suppliers</a>
-                        </li>
-                    </ul>
-                </li>
+                @if (auth()->user()->role == 'admin')
+                    <li>
+                        <a href="/"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-chart-pie text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ms-3">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/clients"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-user-group text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/vehicles"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-car text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Vehicles</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mechanics"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Mechanics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/repair-details"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-screwdriver-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Repairs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/invoices"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-receipt text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Invoices</span>
+                        </a>
+                    </li>
+                    <li>
+                        <button type="button"
+                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                            aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                            <i
+                                class="fa-solid fa-gear text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Warehouse</span>
+                            <i
+                                class="fa-solid fa-angle-down text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        </button>
+                        <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                            <li>
+                                <a href="/spareparts"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Spare
+                                    Parts</a>
+                            </li>
+                            <li>
+                                <a href="/suppliers"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Suppliers</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+                @if (auth()->user()->role == 'client')
+                    <li>
+                        <a href="/vehicles"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-car text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">My Vehicles</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/invoices"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-receipt text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Invoices</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href={{ '/clients' . '/' . auth()->user()->client()->id . '/edit' }}
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-user text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Personal Info</span>
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->user()->role == 'mechanic')
+                    <li>
+                        <a href="/vehicles"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-car text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Vehicles</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/repairs"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-screwdriver-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Tasks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/spareparts"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-gears text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Spare Parts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href={{ '/mechanics' . '/' . auth()->user()->mechanic->id . '/edit' }}
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-user text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Personal Info</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </aside>

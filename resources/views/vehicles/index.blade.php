@@ -2,7 +2,10 @@
 
 @php
     $headers = ['Make', 'Model', 'Year', 'License Plate', 'VIN', 'Fuel Type'];
-    $columns = array_keys($vehicles->first()->toArray());
+    $columns = [];
+    if (!$vehicles->isEmpty()) {
+        $columns = array_keys($vehicles->first()->toArray());
+    }
 @endphp
 
 @section('content')

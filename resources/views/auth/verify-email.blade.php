@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex gap-2 justify-center items-center h-screen">
         <div
-            class="flex flex-col items-center justify-center w-4/5 md:w-1/2 lg:w-2/5 bg-white rounded-lg shadow mx-auto my-4 align-middle justify-center px-8 py-10">
+            class="flex flex-col items-center justify-center w-4/5 md:w-1/2 lg:w-2/5 bg-white rounded-lg shadow mx-auto my-4 align-middle px-8 py-10">
             <div class="flex-1 p-5 self-center">
                 <img src="{{ asset('assets/email-verify.svg') }}" class="mx-auto" alt="">
             </div>

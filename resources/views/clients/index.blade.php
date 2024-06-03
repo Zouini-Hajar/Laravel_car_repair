@@ -2,6 +2,7 @@
 
 @php
     $headers = ['First Name', 'Last Name', 'CIN', 'Phone Number'];
+    $columns = [];
     if (!$clients->isEmpty()) {
         $columns = array_keys($clients->first()->toArray());
     }

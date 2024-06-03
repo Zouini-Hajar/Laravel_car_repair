@@ -41,25 +41,32 @@
                             </p>
                         @enderror
                     </div>
-                    <div class="mb-5">
-                        <label for="mechanic_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Mechanic
-                        </label>
-                        <select id="mechanic_id" name="mechanic_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500">
-                            <option value="">Select Mechanic</option>
-                            @foreach ($mechanics as $mechanic)
-                                <option value="{{ $mechanic->id }}" @selected($mechanic->id == old('mechanic_id'))>
-                                    {{ $mechanic->first_name . ' ' . $mechanic->last_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('mechanic_id')
-                            <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    @if (auth()->user()->role != 'mechanic')
+                        <div class="mb-5">
+                            <label for="mechanic_id"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Mechanic
+                            </label>
+                            <select id="mechanic_id" name="mechanic_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500">
+                                <option value="">Select Mechanic</option>
+                                @foreach ($mechanics as $mechanic)
+                                    <option value="{{ $mechanic->id }}" @selected($mechanic->id == old('mechanic_id'))>
+                                        {{ $mechanic->first_name . ' ' . $mechanic->last_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('mechanic_id')
+                                <p id="filled_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    @else
+                        <input class="hidden" type="text" name="mechanic_id" id="mechanic"
+                            value={{ auth()->user()->mechanic->id }}>
+                    @endif
+
                     <div class="flex gap-5 mb-5">
                         <div class="flex-1">
                             <label for="start_date"
