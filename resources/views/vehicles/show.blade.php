@@ -62,7 +62,9 @@
                                         </td>
                                     @endif
                                 </tr>
-                                <x-delete-modal :id="$repair->id" route="/repairs" />
+                                @if (auth()->user()->role != 'client')
+                                    <x-delete-modal :id="$repair->id" route="/repairs" />
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -75,7 +77,7 @@
             <img class="h-auto w-full rounded-lg" src="{{ asset('assets/car.webp') }}" alt="Vehicle" />
         </x-card>
         @if (auth()->user()->role == 'client')
-            <x-request-repair-modal :repairs="$repairs_details" :mechanics="$mechanics" :vehicle="$vehicle->id" />
+            <x-request-repair-modal :vehicle="$vehicle" />
         @else
             <x-create-repair-modal :repairs="$repairs_details" :mechanics="$mechanics" :vehicle="$vehicle->id" />
         @endif

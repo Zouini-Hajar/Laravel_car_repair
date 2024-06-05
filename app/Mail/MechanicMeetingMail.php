@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class RepairRequestMail extends Mailable
+class MechanicMeetingMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data;
@@ -21,8 +21,8 @@ class RepairRequestMail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.request-repair')
-            ->subject('New Meeting Request')
+        return $this->view('emails.mechanic-meeting')
+            ->subject('New Meeting awaits')
             ->with([
                 'data' => $this->data,
             ]);

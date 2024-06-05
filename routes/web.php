@@ -3,8 +3,10 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\RepairDetailsController;
+use App\Http\Controllers\RepairRequestController;
 use App\Http\Controllers\RepairSparePartController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\SupplierController;
@@ -24,6 +26,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         return view('layout');
     });
     Route::resource('/clients', ClientController::class);
+    Route::get('/clients-export', [ClientController::class, 'export']);
+    Route::post('/clients-import', [ClientController::class, 'import']);
     Route::resource('/vehicles', VehicleController::class);
     Route::resource('/mechanics', MechanicController::class);
     Route::resource('/spareparts', SparePartController::class);
@@ -32,8 +36,24 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('/repair-details', RepairDetailsController::class);
     Route::resource('/repair-spareparts', RepairSparePartController::class);
     Route::resource('/invoices', InvoiceController::class);
+    Route::resource('/meetings', MeetingController::class);
     Route::post('/logout', [UserController::class, 'logout']);
 });
+
+// Repair Request
+Route::post('/request-repair', [RepairRequestController::class, 'submit']);
+Route::get('/confirm-repair', [RepairRequestController::class, 'confirm']);
+Route::get('/reject-repair', [RepairRequestController::class, 'reject']);
+
+
+// Auth
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/register', [UserController::class, 'create']);
+    Route::post('/register', [UserController::class, 'store']);
+    Route::get('/login', [UserController::class, 'login'])->name('login');
+    Route::post('/login', [UserController::class, 'authenticate']);
+});
+
 
 // Email Verification
 Route::get('/email/verify', function () {
@@ -51,6 +71,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('success', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 
 // Reset Password
 Route::get('/forgot-password', function () {
@@ -79,30 +100,21 @@ Route::post('/reset-password', function (Request $request) {
         'email' => 'required|email',
         'password' => 'required|min:8|confirmed',
     ]);
- 
+
     $status = Password::reset(
         $request->only('email', 'password', 'password_confirmation', 'token'),
         function (User $user, string $password) {
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
- 
+
             $user->save();
- 
+
             event(new PasswordReset($user));
         }
     );
- 
+
     return $status === Password::PASSWORD_RESET
-                ? redirect()->route('login')->with('status', __($status))
-                : back()->withErrors(['email' => [__($status)]]);
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
-
-
-// Auth
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/register', [UserController::class, 'create']);
-    Route::post('/register', [UserController::class, 'store']);
-    Route::get('/login', [UserController::class, 'login'])->name('login');
-    Route::post('/login', [UserController::class, 'authenticate']);
-});

@@ -139,6 +139,14 @@
                         </a>
                     </li>
                     <li>
+                        <a href="/meetings"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-calendar-check text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Meetings</span>
+                        </a>
+                    </li>
+                    <li>
                         <button type="button"
                             class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                             aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
@@ -179,7 +187,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href={{ '/clients' . '/' . auth()->user()->client()->id . '/edit' }}
+                        <a href="/meetings"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-calendar-check text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Meetings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href={{ '/clients' . '/' . auth()->user()->client->id . '/edit' }}
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <i
                                 class="fa-solid fa-user text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
@@ -202,6 +218,14 @@
                             <i
                                 class="fa-solid fa-screwdriver-wrench text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                             <span class="flex-1 ms-3 whitespace-nowrap">Tasks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/meetings"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i
+                                class="fa-solid fa-calendar-check text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Meetings</span>
                         </a>
                     </li>
                     <li>

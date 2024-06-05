@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     ];
 
     public function client() {
-        return Client::where('user_id', auth()->user()->id)->first();
+        return $this->hasOne(Client::class);;
     }
 
     public function mechanic() {

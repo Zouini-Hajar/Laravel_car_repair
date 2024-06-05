@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientsExport;
+use App\Imports\ClientsImport;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
@@ -28,7 +31,7 @@ class ClientController extends Controller
         $vehicles = Vehicle::where('client_id', $client->id)->get(['id', 'make', 'model', 'license_plate', 'status']);
         $invoices = Invoice::where('client_id', $client->id)
             ->join('repairs', 'repairs.invoice_id', '=', 'invoices.id')
-            ->join('repairs_details', 'repairs.repair_details_id' , '=', 'repairs_details.id')
+            ->join('repairs_details', 'repairs.repair_details_id', '=', 'repairs_details.id')
             ->select('description', 'total', 'invoices.status')
             ->get();
         return view('clients.show', [
@@ -129,5 +132,16 @@ class ClientController extends Controller
         $client->delete();
 
         return redirect('/clients')->with('success', 'Client deleted successfully!');
+    }
+
+    public function export()
+    {
+        return Excel::download(new ClientsExport, 'clients.xlsx');
+    }
+
+    public function import()
+    {
+        Excel::import(new ClientsImport, request()->file('file'));
+        return back();
     }
 }

@@ -17,9 +17,8 @@ class VehicleController extends Controller
     {
         if (auth()->user()->role == 'client') {
             $vehicles = Vehicle::join('clients', 'client_id', '=', 'clients.id')
-                ->join('users', 'user_id', '=', 'users.id')
                 ->select(['vehicles.id', 'make', 'model', 'year', 'license_plate', 'vin', 'fuel_type'])
-                ->where('user_id', auth()->user()->id)
+                ->where('client_id', auth()->user()->client->id)
                 ->orderBy('vehicles.updated_at')
                 ->simplePaginate(5);
         } else {

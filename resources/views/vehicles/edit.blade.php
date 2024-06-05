@@ -7,7 +7,7 @@
             @csrf
             @method('PUT')
             <div class={{auth()->user()->role == 'client' ? ' hidden' : 'mb-5'}}>
-                <label for="client_" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="client" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Client
                 </label>
                 <select id="client" name="client_id"

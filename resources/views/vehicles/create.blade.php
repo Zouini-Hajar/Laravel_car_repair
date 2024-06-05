@@ -25,7 +25,7 @@
                     @enderror
                 </div>
             @else
-                <input class="hidden" type="text" name="client_id" id="client" value={{ auth()->user()->client()->id }}>
+                <input class="hidden" type="text" name="client_id" id="client" value={{ auth()->user()->client->id }}>
             @endif
             <div class="flex gap-5 mb-5">
                 <div class="flex-1">
