@@ -2,7 +2,8 @@
 
 namespace App\Exports;
 
-use App\Models\Client;
+use App\Models\Vehicle;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -10,14 +11,14 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class ClientsExport implements FromCollection, WithHeadings, WithStyles
+class VehiclesExport implements FromCollection, WithHeadings, WithStyles
 {
-    private $clients;
+    private $vehicles;
 
     public function __construct()
     {
-        $this->clients = Client::join('users', 'user_id', '=', 'users.id')
-            ->select('clients.id', 'first_name', 'last_name', 'cin', 'address', 'phone_number', 'email')
+        $this->vehicles = Vehicle::join('clients', 'client_id', '=', 'clients.id')
+            ->select([DB::raw('CONCAT(clients.first_name, " ", clients.last_name) AS client'), 'make', 'model', 'year', 'license_plate', 'vin', 'fuel_type'])
             ->get();
     }
 
@@ -26,18 +27,18 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
      */
     public function collection()
     {
-        return $this->clients;
+        return $this->vehicles;
     }
 
     public function headings(): array
     {
-        return ["#", "First Name", "Last Name", "CIN", 'Address', "Phone Number", "Email"];
+        return ["Client", "Make", "Model", "Year", "License Plate", 'VIN', "Fuel Type"];
     }
 
     public function styles(Worksheet $sheet)
     {
         // Set the width for all columns
-        $sheet->getDefaultColumnDimension()->setWidth(30); // Increase the width
+        $sheet->getDefaultColumnDimension()->setWidth(20); // Increase the width
 
         // Apply array of styles to 'A1:G1' range
         $sheet->getStyle('A1:G1')->applyFromArray([
@@ -58,7 +59,7 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
         ]);
 
         // Get the last row number based on the count of the collection
-        $lastRow = count($this->clients) + 1; // Add 1 because the header is in the first row
+        $lastRow = count($this->vehicles) + 1; // Add 1 because the header is in the first row
 
         // Apply array of styles to 'A2:G' . $lastRow range
         $sheet->getStyle('A2:G' . $lastRow)->applyFromArray([

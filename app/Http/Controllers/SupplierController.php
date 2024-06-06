@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SuppliersExport;
+use App\Imports\SuppliersImport;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierController extends Controller
 {
@@ -54,5 +57,16 @@ class SupplierController extends Controller
     {
         $supplier->delete();
         return redirect('/suppliers')->with('success', 'Supplier deleted successfully!');
+    }
+
+    public function export()
+    {
+        return Excel::download(new SuppliersExport, 'suppliers.xlsx');
+    }
+
+    public function import()
+    {
+        Excel::import(new SuppliersImport, request()->file('file'));
+        return back()->with('success', 'File imported successfully!');
     }
 }

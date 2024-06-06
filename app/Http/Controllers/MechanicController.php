@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MechanicsExport;
+use App\Imports\MechanicsImport;
 use App\Models\Mechanic;
 use App\Models\Repair;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MechanicController extends Controller
 {
@@ -133,5 +136,16 @@ class MechanicController extends Controller
         $mechanic->delete();
 
         return redirect('/mechanics')->with('success', 'Mechanic deleted successfully!');
+    }
+
+    public function export()
+    {
+        return Excel::download(new MechanicsExport, 'mechanics.xlsx');
+    }
+
+    public function import()
+    {
+        Excel::import(new MechanicsImport, request()->file('file'));
+        return back()->with('success', 'File imported successfully!');
     }
 }

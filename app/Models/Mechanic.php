@@ -16,6 +16,7 @@ class Mechanic extends Model
         'email',
         'phone_number',
         'cin',
+        'user_id',
         'recruitment_date',
         'salary'
     ];

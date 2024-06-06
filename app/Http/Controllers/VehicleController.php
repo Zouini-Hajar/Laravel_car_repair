@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VehiclesExport;
+use App\Imports\VehiclesImport;
 use App\Models\Client;
 use App\Models\Mechanic;
 use App\Models\Repair;
@@ -9,6 +11,7 @@ use App\Models\RepairDetails;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleController extends Controller
 {
@@ -108,5 +111,16 @@ class VehicleController extends Controller
     {
         $vehicle->delete();
         return redirect('/vehicles')->with('success', 'Vehicle deleted successfully!');
+    }
+
+    public function export()
+    {
+        return Excel::download(new VehiclesExport, 'vehicles.xlsx');
+    }
+
+    public function import()
+    {
+        Excel::import(new VehiclesImport, request()->file('file'));
+        return back()->with('success', 'File imported successfully!');
     }
 }

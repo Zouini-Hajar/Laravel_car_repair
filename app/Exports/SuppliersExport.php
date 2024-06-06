@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Client;
+use App\Models\Supplier;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -10,14 +10,13 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class ClientsExport implements FromCollection, WithHeadings, WithStyles
+class SuppliersExport implements FromCollection, WithHeadings, WithStyles
 {
-    private $clients;
+    private $suppliers;
 
     public function __construct()
     {
-        $this->clients = Client::join('users', 'user_id', '=', 'users.id')
-            ->select('clients.id', 'first_name', 'last_name', 'cin', 'address', 'phone_number', 'email')
+        $this->suppliers = Supplier::select(['id', 'name', 'email', 'phone_number', 'address'])
             ->get();
     }
 
@@ -26,12 +25,12 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
      */
     public function collection()
     {
-        return $this->clients;
+        return $this->suppliers;
     }
 
     public function headings(): array
     {
-        return ["#", "First Name", "Last Name", "CIN", 'Address', "Phone Number", "Email"];
+        return ["#", "Name", "Email", "Phone Number", "Address"];
     }
 
     public function styles(Worksheet $sheet)
@@ -40,7 +39,7 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
         $sheet->getDefaultColumnDimension()->setWidth(30); // Increase the width
 
         // Apply array of styles to 'A1:G1' range
-        $sheet->getStyle('A1:G1')->applyFromArray([
+        $sheet->getStyle('A1:E1')->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -58,10 +57,10 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
         ]);
 
         // Get the last row number based on the count of the collection
-        $lastRow = count($this->clients) + 1; // Add 1 because the header is in the first row
+        $lastRow = count($this->suppliers) + 1; // Add 1 because the header is in the first row
 
         // Apply array of styles to 'A2:G' . $lastRow range
-        $sheet->getStyle('A2:G' . $lastRow)->applyFromArray([
+        $sheet->getStyle('A2:E' . $lastRow)->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

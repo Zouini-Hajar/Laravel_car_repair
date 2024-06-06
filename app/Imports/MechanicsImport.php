@@ -2,12 +2,12 @@
 
 namespace App\Imports;
 
-use App\Models\Client;
+use App\Models\Mechanic;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ClientsImport implements ToModel, WithHeadingRow
+class MechanicsImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -23,12 +23,14 @@ class ClientsImport implements ToModel, WithHeadingRow
             'role' => 'client'
         ]);
 
-        return new Client([
+        return new Mechanic([
             'first_name' => $row['first_name'],
             'last_name' => $row['last_name'],
             'cin' => $row['cin'],
             'address' => $row['address'],
             'phone_number' => $row['phone_number'],
+            'recruitment_date' => $row['recruitment_date'],
+            'salary' => $row['salary'],
             'user_id' => $user->id
         ]);
     }

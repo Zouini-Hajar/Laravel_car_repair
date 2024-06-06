@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Client;
+use App\Models\SparePart;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -10,14 +10,14 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class ClientsExport implements FromCollection, WithHeadings, WithStyles
+class SparePartsExport implements FromCollection, WithHeadings, WithStyles
 {
-    private $clients;
+    private $spareparts;
 
     public function __construct()
     {
-        $this->clients = Client::join('users', 'user_id', '=', 'users.id')
-            ->select('clients.id', 'first_name', 'last_name', 'cin', 'address', 'phone_number', 'email')
+        $this->spareparts = SparePart::join('suppliers', 'supplier_id', '=', 'suppliers.id')
+            ->select(['spareparts.id', 'spareparts.name', 'reference', 'stock', 'price', 'email'])
             ->get();
     }
 
@@ -26,12 +26,12 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
      */
     public function collection()
     {
-        return $this->clients;
+        return $this->spareparts;
     }
 
     public function headings(): array
     {
-        return ["#", "First Name", "Last Name", "CIN", 'Address', "Phone Number", "Email"];
+        return ["#", "Name", "Reference", "Stock", "Price", "Supplier Email"];
     }
 
     public function styles(Worksheet $sheet)
@@ -40,7 +40,7 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
         $sheet->getDefaultColumnDimension()->setWidth(30); // Increase the width
 
         // Apply array of styles to 'A1:G1' range
-        $sheet->getStyle('A1:G1')->applyFromArray([
+        $sheet->getStyle('A1:F1')->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -58,10 +58,10 @@ class ClientsExport implements FromCollection, WithHeadings, WithStyles
         ]);
 
         // Get the last row number based on the count of the collection
-        $lastRow = count($this->clients) + 1; // Add 1 because the header is in the first row
+        $lastRow = count($this->spareparts) + 1; // Add 1 because the header is in the first row
 
         // Apply array of styles to 'A2:G' . $lastRow range
-        $sheet->getStyle('A2:G' . $lastRow)->applyFromArray([
+        $sheet->getStyle('A2:F' . $lastRow)->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

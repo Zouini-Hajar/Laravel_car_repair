@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\RepairDetailsController;
 use App\Http\Controllers\RepairRequestController;
@@ -29,9 +30,17 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/clients-export', [ClientController::class, 'export']);
     Route::post('/clients-import', [ClientController::class, 'import']);
     Route::resource('/vehicles', VehicleController::class);
+    Route::get('/vehicles-export', [VehicleController::class, 'export']);
+    Route::post('/vehicles-import', [VehicleController::class, 'import']);
     Route::resource('/mechanics', MechanicController::class);
+    Route::get('/mechanics-export', [MechanicController::class, 'export']);
+    Route::post('/mechanics-import', [MechanicController::class, 'import']);
     Route::resource('/spareparts', SparePartController::class);
+    Route::get('/spareparts-export', [SparePartController::class, 'export']);
+    Route::post('/spareparts-import', [SparePartController::class, 'import']);
     Route::resource('/suppliers', SupplierController::class);
+    Route::get('/suppliers-export', [SupplierController::class, 'export']);
+    Route::post('/suppliers-import', [SupplierController::class, 'import']);
     Route::resource('/repairs', RepairController::class);
     Route::resource('/repair-details', RepairDetailsController::class);
     Route::resource('/repair-spareparts', RepairSparePartController::class);
@@ -39,6 +48,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('/meetings', MeetingController::class);
     Route::post('/logout', [UserController::class, 'logout']);
 });
+
+
+// Pdf
+Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF']);
+
 
 // Repair Request
 Route::post('/request-repair', [RepairRequestController::class, 'submit']);

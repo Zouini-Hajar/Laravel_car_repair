@@ -134,6 +134,10 @@ class ClientController extends Controller
         return redirect('/clients')->with('success', 'Client deleted successfully!');
     }
 
+    public function search($query) {
+        
+    }
+
     public function export()
     {
         return Excel::download(new ClientsExport, 'clients.xlsx');
@@ -142,6 +146,6 @@ class ClientController extends Controller
     public function import()
     {
         Excel::import(new ClientsImport, request()->file('file'));
-        return back();
+        return back()->with('success', 'File imported successfully!');
     }
 }

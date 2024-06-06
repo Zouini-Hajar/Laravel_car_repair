@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SparePartsExport;
+use App\Imports\SparePartsImport;
 use App\Models\Sparepart;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SparePartController extends Controller
 {
@@ -68,5 +71,16 @@ class SparePartController extends Controller
     {
         $sparepart->delete();
         return redirect('/spareparts')->with('success', 'Vehicle deleted successfully!');
+    }
+
+    public function export()
+    {
+        return Excel::download(new SparePartsExport, 'spareparts.xlsx');
+    }
+
+    public function import()
+    {
+        Excel::import(new SparePartsImport, request()->file('file'));
+        return back()->with('success', 'File imported successfully!');
     }
 }

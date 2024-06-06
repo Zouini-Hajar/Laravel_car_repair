@@ -51,23 +51,19 @@
                             <td class="px-6 py-4">
                                 <x-status :status="$item->status" />
                             </td>
-                            @if (auth()->user()->role != 'client')
-                                <td class="flex justify-center items-center px-6 py-4">
-                                    <button type="button" onclick="event.stopPropagation();"
-                                        data-modal-target={{ 'edit-modal-' . $item->id }}
-                                        data-modal-toggle={{ 'edit-modal-' . $item->id }}
-                                        class="mr-1 text-purple-700 border border-purple-700 hover:bg-purple-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-purple-500 dark:text-purple-500 dark:hover:text-white dark:focus:ring-purple-800 dark:hover:bg-purple-500">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                </td>
-                            @else
-                                <td class="flex justify-center items-center px-6 py-4">
-                                    <button type="button" onclick="event.stopPropagation();"
-                                        class="mr-1 text-purple-700 border border-purple-700 hover:bg-purple-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-purple-500 dark:text-purple-500 dark:hover:text-white dark:focus:ring-purple-800 dark:hover:bg-purple-500">
-                                        <i class="fa-solid fa-print"></i>
-                                    </button>
-                                </td>
-                            @endif
+                            <td class="flex justify-center items-center px-6 py-4">
+                                <button type="button" onclick="event.stopPropagation();"
+                                    data-modal-target={{ 'edit-modal-' . $item->id }}
+                                    data-modal-toggle={{ 'edit-modal-' . $item->id }}
+                                    class="mr-1 text-purple-700 border border-purple-700 hover:bg-purple-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-purple-500 dark:text-purple-500 dark:hover:text-white dark:focus:ring-purple-800 dark:hover:bg-purple-500">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button type="button"
+                                    onclick="event.stopPropagation();window.location='{{ '/generate-pdf' . '/' . $item->id }}'"
+                                    class="mr-1 text-purple-700 border border-purple-700 hover:bg-purple-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-purple-500 dark:text-purple-500 dark:hover:text-white dark:focus:ring-purple-800 dark:hover:bg-purple-500">
+                                    <i class="fa-solid fa-print"></i>
+                                </button>
+                            </td>
                         </tr>
                         @if (auth()->user()->role != 'client')
                             <div id={{ 'edit-modal-' . $item->id }} tabindex="-1" aria-hidden="true"
