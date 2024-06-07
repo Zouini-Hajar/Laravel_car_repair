@@ -42,6 +42,7 @@ class VehicleController extends Controller
             ->where('repairs.vehicle_id', $vehicle->id)
             ->select('repairs.id', 'description', 'price', 'status')
             ->get();
+
         return view('vehicles.show', [
             'vehicle' => $vehicle,
             'repairs' => $repairs,
@@ -91,6 +92,14 @@ class VehicleController extends Controller
     // Update vehicle
     public function update(Request $request, Vehicle $vehicle)
     {
+        if ($request->hasFile('picture')) {
+            $vehicle->picture =  $request->file('picture')->store('pictures', 'public');
+
+            $vehicle->save();
+
+            return back()->with('success', 'Image added successfully!');
+        }
+
         $data = $request->validate([
             'client_id' => 'required',
             'make' => 'required',
@@ -98,7 +107,6 @@ class VehicleController extends Controller
             'year' => 'required|numeric',
             'fuel_type' => 'required',
             'vin' => ['required', 'regex:/^[A-HJ-NPR-Z0-9]{17}$/'],
-            'license_plate' => 'required',
         ]);
 
         $vehicle->update($data);
@@ -111,6 +119,28 @@ class VehicleController extends Controller
     {
         $vehicle->delete();
         return redirect('/vehicles')->with('success', 'Vehicle deleted successfully!');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        $vehicles = Vehicle::where('make', 'LIKE', "%$query%")
+            ->orWhere('model', 'LIKE', "%$query%")
+            ->orWhere('year', 'LIKE', "%$query%")
+            ->orWhere('license_plate', 'LIKE', "%$query%")
+            ->orWhere('vin', 'LIKE', "%$query%")
+            ->orWhere('fuel_type', 'LIKE', "%$query%")
+            ->select(['id', 'make', 'model', 'year', 'license_plate', 'vin', 'fuel_type'])
+            ->simplePaginate(5);
+
+        $html = view('partials._table_body', [
+            'list' => $vehicles,
+            'columns' => !$vehicles->isEmpty() ? array_keys($vehicles->first()->toArray()) : [],
+            'route' => 'vehicles'
+        ])->render();
+
+        return response()->json(['html' => $html]);
     }
 
     public function export()

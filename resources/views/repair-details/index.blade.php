@@ -11,7 +11,7 @@
             Repairs
         </h3>
         <div class="w-1/2 flex items-center gap-2">
-            <x-search-input />
+            <x-search-input route="repairs" />
             <button type="button" data-modal-target="create-modal" data-modal-show="create-modal"
                 class="px-5 py-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
                 <i class="fa-solid fa-plus"></i> Create
@@ -167,8 +167,7 @@
                                 @enderror
                             </div>
                             <div class="mb-5">
-                                <label for="price"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Price
                                 </label>
                                 <input type="number" id="price" name="price"

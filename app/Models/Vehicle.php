@@ -17,6 +17,7 @@ class Vehicle extends Model
         'vin',
         'fuel_type',
         'status',
-        'client_id'
+        'client_id',
+        'picture'
     ];
 }

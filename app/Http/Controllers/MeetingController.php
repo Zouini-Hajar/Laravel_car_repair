@@ -67,7 +67,5 @@ class MeetingController extends Controller
             'client' => Client::find($data['client_id']),
             'mechanic' => $mechanic
         ]));
-
-        return redirect('/')->with('success', 'Meeting confirmed and created!');
     }
 }

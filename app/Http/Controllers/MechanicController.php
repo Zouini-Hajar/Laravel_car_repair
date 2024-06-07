@@ -138,6 +138,26 @@ class MechanicController extends Controller
         return redirect('/mechanics')->with('success', 'Mechanic deleted successfully!');
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $mechanics = Mechanic::where('first_name', 'LIKE', "%$query%")
+            ->orWhere('last_name', 'LIKE', "%$query%")
+            ->orWhere('cin', 'LIKE', "%$query%")
+            ->orWhere('phone_number', 'LIKE', "%$query%")
+            ->join('users', 'user_id', '=', 'users.id')
+            ->select('mechanics.id', 'first_name', 'last_name', 'cin', 'phone_number', 'picture')
+            ->simplePaginate(5);
+
+        $html = view('partials._table_body', [
+            'list' => $mechanics,
+            'columns' => !$mechanics->isEmpty() ? array_keys($mechanics->first()->toArray()) : [],
+            'route' => 'mechanics'
+        ])->render();
+
+        return response()->json(['html' => $html]);
+    }
+
     public function export()
     {
         return Excel::download(new MechanicsExport, 'mechanics.xlsx');

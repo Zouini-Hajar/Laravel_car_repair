@@ -69,7 +69,5 @@ class RepairRequestController extends Controller
         Mail::to($user->email)->send(new RepairRequestRejectionMail([
             'client' => $client,
         ]));
-
-        return redirect('/')->with('success', 'Meeting rejected.');
     }
 }

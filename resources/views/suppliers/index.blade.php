@@ -11,7 +11,7 @@
             Suppliers
         </h3>
         <div class="w-3/5 flex items-center gap-2">
-            <x-search-input />
+            <x-search-input route="suppliers" />
             @if (auth()->user()->role == 'admin')
                 <button type="button" onclick="window.location='suppliers-export'"
                     class="px-5 py-3 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">

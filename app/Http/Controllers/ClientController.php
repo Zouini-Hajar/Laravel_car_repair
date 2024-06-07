@@ -134,8 +134,24 @@ class ClientController extends Controller
         return redirect('/clients')->with('success', 'Client deleted successfully!');
     }
 
-    public function search($query) {
-        
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $clients = Client::where('first_name', 'LIKE', "%$query%")
+            ->orWhere('last_name', 'LIKE', "%$query%")
+            ->orWhere('cin', 'LIKE', "%$query%")
+            ->orWhere('phone_number', 'LIKE', "%$query%")
+            ->join('users', 'user_id', '=', 'users.id')
+            ->select('clients.id', 'first_name', 'last_name', 'cin', 'phone_number', 'picture')
+            ->simplePaginate(5);
+
+        $html = view('partials._table_body', [
+            'list' => $clients,
+            'columns' => !$clients->isEmpty() ? array_keys($clients->first()->toArray()) : [],
+            'route' => 'clients'
+        ])->render();
+
+        return response()->json(['html' => $html]);
     }
 
     public function export()
